@@ -1,12 +1,22 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
+from .models import Task
 # Create your views here.
 def index(request):
-    context ={}
+    context ={
+         'task_list': Task.objects.all()
+    }
     return render(request,'index.html', context)
 def add_task(request):
+        if request.method =='POST':
+             task= request.POST.get('task')
+             if len(task)>=2:
+                  task.objects.create(title=task)
+        redirect('home')
         context={}
         return render(request,'todo_list.html', context)
 def update_task(request,id):
     context={}
     return render(request,'todo_list.html', context)
+def delete_task(request, id):
+     pass
